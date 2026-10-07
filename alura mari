@@ -1,0 +1,25 @@
+import itertools
+
+# Função de hash criada nas aulas anteriores
+def calcula_hash(senha):
+    valor = 0
+    for letra in senha:
+        valor = valor * 31 + ord(letra)
+    valor %= 2**32
+    return f"0x{valor:08x}"
+
+# Senha de teste e seu hash
+senha_nova = "mar"
+hash_novo = calcula_hash(senha_nova)
+
+# Conjunto de caracteres permitidos
+dicionario_novo = "abcdefghijklmnopqrstuvwxyzABC123!@#$"
+
+# Ataque de força bruta
+encontrado = False
+for combinacao in itertools.product(dicionario_novo, repeat=len(senha_nova)):
+    tentativa = "".join(combinacao)
+    if calcula_hash(tentativa) == hash_novo:
+        print(f"Senha encontrada: {tentativa}")
+        encontrado = True
+        break
